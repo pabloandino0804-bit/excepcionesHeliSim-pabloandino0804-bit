@@ -15,20 +15,20 @@ public class ModosTest {
     void ModoEficienteTieneRendimiento14KmYVelocidadMaxima180() {
         assertEquals(eficiente.getNombre(), "Eficiente");
         assertEquals(eficiente.getConsumoPorLitro(), 14.0);
-        assertEquals(eficiente.getVelocidadMax(), 180.0);
+        assertEquals(eficiente.getVelocidadMax(), 180);
     }
 
     @Test
     void ModoNormalTieneRendimiento9KmYVelocidadMaxima220() {
         assertEquals(normal.getNombre(), "Normal");
         assertEquals(normal.getConsumoPorLitro(), 9.0);
-        assertEquals(normal.getVelocidadMax(), 220.0);
+        assertEquals(normal.getVelocidadMax(), 220);
     }
 
     @Test
     void ModoAgresivoieneRendimiento6KmYVelocidadMaxima280() {
         assertEquals(agresivo.getNombre(), "Agresivo");
         assertEquals(agresivo.getConsumoPorLitro(), 6.0);
-        assertEquals(agresivo.getVelocidadMax(), 280.0);
+        assertEquals(agresivo.getVelocidadMax(), 280);
     }
 }

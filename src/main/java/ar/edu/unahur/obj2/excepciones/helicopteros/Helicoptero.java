@@ -36,7 +36,7 @@ public abstract class Helicoptero {
 
         ejecutarVuelo(distanciaKm, volarHastaDondePueda);
 
-        finalizarVuelo(kilometraje);
+        finalizarVuelo();
     }
     
     private void ejecutarVuelo(Double distanciaKm, Boolean volarHastaQuePueda) {
@@ -102,7 +102,7 @@ public abstract class Helicoptero {
 
     protected abstract String mensaje();
 
-    protected abstract void finalizarVuelo(double kilometrajeDado);
+    protected abstract void finalizarVuelo();
 
     private Boolean consumeReserva(Double combustibleNecesario) {
         return (combustible - combustibleNecesario) < getReserva();
@@ -111,10 +111,9 @@ public abstract class Helicoptero {
     private double getReserva() {
         return capacidad * 0.1;
     }
+
     // Metodos de consulta
     // -------------------
-    
-
     public Double calcularTiempoVuelo(Double distanciaKm) {
         return distanciaKm / modoVuelo.getVelocidadMax();
     }
@@ -169,7 +168,7 @@ public abstract class Helicoptero {
             this.agregarMensaje("Vuelo fue realizado utilizando reserva de combustible");
             return true;
         }catch (EstadoInvalidoException e){
-            this.agregarMensaje("Vuelo cancelado" + e.getMessage());
+            this.agregarMensaje("Vuelo cancelado " + e.getMessage());
             return false;
         }
 

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -100,10 +101,10 @@ public class HelicopteroTest {
 
     
     @Test
-    void SiUnHelicopteroTieneUnBooleanoFalsoEntocesHaraUnVueloParcial() {
+    void SiNoPuedeVolarEntocesHaraUnVueloParcial() {
         Modo eficiente = new ModoEficiente();
         heliCivil.cambiarModo(eficiente);
-        heliCivil.volar(45.0, false);
+        heliCivil.volar(1900.0, true);
         assertEquals(heliCivil.getKilometraje(), 1400.0);
         assertTrue(
             heliCivil.getBitacora().contains("Vuelo parcial "+ heliCivil.getKilometraje() + " km recorridos hasta agotar combustible.")
@@ -115,18 +116,42 @@ public class HelicopteroTest {
     void SiElHelicopteroTieneReservaRestanteLanzaraLaExcepcionDeReserva() {
         assertThrows(
             UsoDeReservaException.class, 
-            () -> heliCivil.volar(91.0, true)
+            () -> heliCivil.volar(1350.0, true)
         );
     }
 
 
     @Test
-    void SiElHelicopteroNoTieneCombustibleAlValidarSuDespegueLanzaraLaExcepcionDEstadoInvalido() {
+    void siElHelicopteroNoTieneCombustibleAlValidarSuDespegueLanzaraLaExcepcionDEstadoInvalido() {
         Helicoptero heli = new HelicopteroCivil(0.0, 150.0);
         assertThrows(
             EstadoInvalidoException.class, 
             () -> heli.volar(40.0, true)
         );
+    }
+
+    @Test
+    void cuandoIntentaVolarDevolveraUnValorTrue(){
+        assertTrue(heliCivil.intentarVolar(170.0, true));
+        assertTrue(heliCivil.getBitacora().contains("Vuelo exitoso"));
+    }
+
+    @Test
+    void cuandoIntentaVolarParciamenteTambienDaVueloCumplido(){
+        assertTrue(heliCivil.intentarVolar(1900.0, true));
+        assertTrue(heliCivil.getBitacora().contains("Vuelo exitoso"));
+    }
+
+    @Test
+    void cuandoElHelicopteroTieneReservaDevolveraVerdero(){
+        assertTrue(heliCivil.intentarVolar(1350.0, true));
+        assertTrue(heliCivil.getBitacora().contains("Vuelo fue realizado utilizando reserva de combustible"));
+    }
+
+    @Test
+    void siElHelicopteroIntentaVolaryFallaEntoncesDaFalse(){
+        Helicoptero heli = new HelicopteroCivil(0.0, 150.0);
+        assertFalse(heli.intentarVolar(40.0, false));
     }
 
     /*Tests de helicoptero civil */
@@ -137,6 +162,7 @@ public class HelicopteroTest {
         heliCivil.volar(450.0, heliCivil.getCapacidad() > 100.0);
         assertTrue(heliCivil.getBitacora().contains("Pasajeros y equipaje verificados. Listo para despegue"));
         assertTrue(heliCivil.getBitacora().contains("Vuelo civil completado: " + 450.0 + " km. Pasajeros desembarcados."));
+        assertEquals(heliCivil.calcularTiempoVuelo(450.0), 2.0454545454545454);
     }
     
     /*Tests de helicoptero militar*/
@@ -153,8 +179,11 @@ public class HelicopteroTest {
 
     @Test 
     void AntesDeVolarElHeliMilitarRegistraUnMensajeYDespuesFinalizaDandoUnMensaje() {
+        Modo modoAgresivo = new ModoAgresivo();
+        heliMilitar.cambiarModo(modoAgresivo);
         heliMilitar.volar(357.7, heliMilitar.getCapacidad()> 100.0);
         assertTrue(heliMilitar.getBitacora().contains("Sistemas de armas y navegación activados"));
         assertTrue(heliMilitar.getBitacora().contains("Mision completa: " + 357.7 + " km. Regresando a base."));
+        assertEquals(heliMilitar.calcularTiempoVuelo(357.7), 1.2774999999999999);
     }
 }

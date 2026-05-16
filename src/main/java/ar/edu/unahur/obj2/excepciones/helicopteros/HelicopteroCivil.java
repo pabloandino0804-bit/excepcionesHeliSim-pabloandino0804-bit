@@ -12,8 +12,7 @@ public class HelicopteroCivil extends Helicoptero{
     }
 
     @Override
-    protected void finalizarVuelo(double kilometrajeDado) {
-        agregarMensaje("Vuelo civil completado: " + kilometrajeDado + " km. Pasajeros desembarcados.");
-        calcularTiempoVuelo(kilometrajeDado);
+    protected void finalizarVuelo() {
+        agregarMensaje("Vuelo civil completado: " + this.getKilometraje() + " km. Pasajeros desembarcados.");
     }
 }
