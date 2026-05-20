@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
@@ -101,7 +103,7 @@ public class HelicopteroTest {
 
     
     @Test
-    void SiNoPuedeVolarEntocesHaraUnVueloParcial() {
+    void siUnHelicopteroTieneUnBooleanoTrueYNoPuedeVolarCiertaDistanciaEntocesHaraUnVueloParcial() {
         Modo eficiente = new ModoEficiente();
         heliCivil.cambiarModo(eficiente);
         heliCivil.volar(1900.0, true);
@@ -113,13 +115,20 @@ public class HelicopteroTest {
 
     /*Tests de excepciones */
     @Test
-    void SiElHelicopteroTieneReservaRestanteLanzaraLaExcepcionDeReserva() {
+    void siElHelicopteroTieneReservaRestanteLanzaraLaExcepcionDeReserva() {
         assertThrows(
             UsoDeReservaException.class, 
             () -> heliCivil.volar(1350.0, true)
         );
     }
 
+    @Test
+    void siElHelicopteroTieneBooleanFalsoYNoPuedeVolarLanzaraUnaExcepcion() {
+        assertThrows(
+            EstadoInvalidoException.class, 
+            () -> heliCivil.volar(1900.0, false)
+        );
+    }
 
     @Test
     void siElHelicopteroNoTieneCombustibleAlValidarSuDespegueLanzaraLaExcepcionDEstadoInvalido() {
